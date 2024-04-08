@@ -9,6 +9,7 @@ import theme from './theme'
 import { StrictMode } from 'react'
 
 OpenAPI.BASE = import.meta.env.VITE_API_URL
+console.log(`Base URL: ${import.meta.env.VITE_API_URL}`)
 OpenAPI.TOKEN = async () => {
   return localStorage.getItem('access_token') || ''
 }
