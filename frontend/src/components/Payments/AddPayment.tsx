@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Button,
-  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -14,13 +13,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Textarea,
-  VStack
+  Textarea
 } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
-import { ApiError, PaymentCreate, StudentsService, GroupOut, PaymentsService } from '../../client'
+import { ApiError, PaymentCreate, StudentsService, PaymentsService } from '../../client'
 import useCustomToast from '../../hooks/useCustomToast'
 
 interface AddPaymentProps {

@@ -22,7 +22,7 @@ import ActionsMenu from '../../components/Common/ActionsMenu'
 
 
 export const Route = createFileRoute('/_layout/students/$studentId')({
-  loader: async ({ params: { studentId } }) => StudentsService.readStudent({id: studentId}),
+  loader: async ({ params: { studentId } }) => StudentsService.readStudent({id: parseInt(studentId)}),
   notFoundComponent: () => {
     return <p>Alumno no encontrado</p>
   },

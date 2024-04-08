@@ -19,7 +19,7 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { ApiError, GroupsService, StudentOut, StudentsService, GroupOut, StudentUpdate } from '../../client'
+import { ApiError, GroupsService, StudentOut, StudentsService, GroupOut } from '../../client'
 import useCustomToast from '../../hooks/useCustomToast'
 
 interface EditStudentProps {

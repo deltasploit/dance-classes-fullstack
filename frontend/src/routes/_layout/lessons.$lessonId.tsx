@@ -19,7 +19,7 @@ import ActionsMenu from '../../components/Common/ActionsMenu'
 
 
 export const Route = createFileRoute('/_layout/lessons/$lessonId')({
-  loader: async ({ params: { lessonId } }) => LessonsService.readLesson({id: lessonId}),
+  loader: async ({ params: { lessonId } }) => LessonsService.readLesson({id: parseInt(lessonId)}),
   notFoundComponent: () => {
     return <p>Clase no encontrada</p>
   },

@@ -66,7 +66,7 @@ function Groups() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {groups.data.map((group) => (
+                  {groups?.data?.map((group) => (
                     <Tr key={group.id}>
                       <Td>{group.id}</Td>
                       <Td>{group.name}</Td>

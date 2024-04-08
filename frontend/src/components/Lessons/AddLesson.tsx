@@ -113,7 +113,7 @@ const AddLesson: React.FC<AddLessonProps> = ({ group, isOpen, onClose }) => {
                     },
                   })}
                 >
-                  { groups?.data.map( (g) => (
+                  { groups?.data?.map( (g) => (
                     <option value={g.id}>{g.name}</option>
                   ))}
                 </Select>
