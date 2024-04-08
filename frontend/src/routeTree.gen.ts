@@ -17,8 +17,13 @@ import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
-import { Route as LayoutItemsImport } from './routes/_layout/items'
+import { Route as LayoutPaymentsImport } from './routes/_layout/payments'
+import { Route as LayoutGroupsImport } from './routes/_layout/groups'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
+import { Route as LayoutStudentsIndexImport } from './routes/_layout/students.index'
+import { Route as LayoutLessonsIndexImport } from './routes/_layout/lessons.index'
+import { Route as LayoutStudentsStudentIdImport } from './routes/_layout/students.$studentId'
+import { Route as LayoutLessonsLessonIdImport } from './routes/_layout/lessons.$lessonId'
 
 // Create/Update Routes
 
@@ -52,13 +57,38 @@ const LayoutSettingsRoute = LayoutSettingsImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutItemsRoute = LayoutItemsImport.update({
-  path: '/items',
+const LayoutPaymentsRoute = LayoutPaymentsImport.update({
+  path: '/payments',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutGroupsRoute = LayoutGroupsImport.update({
+  path: '/groups',
   getParentRoute: () => LayoutRoute,
 } as any)
 
 const LayoutAdminRoute = LayoutAdminImport.update({
   path: '/admin',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutStudentsIndexRoute = LayoutStudentsIndexImport.update({
+  path: '/students/',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutLessonsIndexRoute = LayoutLessonsIndexImport.update({
+  path: '/lessons/',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutStudentsStudentIdRoute = LayoutStudentsStudentIdImport.update({
+  path: '/students/$studentId',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutLessonsLessonIdRoute = LayoutLessonsLessonIdImport.update({
+  path: '/lessons/$lessonId',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -86,8 +116,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAdminImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/items': {
-      preLoaderRoute: typeof LayoutItemsImport
+    '/_layout/groups': {
+      preLoaderRoute: typeof LayoutGroupsImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/payments': {
+      preLoaderRoute: typeof LayoutPaymentsImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/settings': {
@@ -98,6 +132,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/lessons/$lessonId': {
+      preLoaderRoute: typeof LayoutLessonsLessonIdImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/students/$studentId': {
+      preLoaderRoute: typeof LayoutStudentsStudentIdImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/lessons/': {
+      preLoaderRoute: typeof LayoutLessonsIndexImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/students/': {
+      preLoaderRoute: typeof LayoutStudentsIndexImport
+      parentRoute: typeof LayoutImport
+    }
   }
 }
 
@@ -106,9 +156,14 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAdminRoute,
-    LayoutItemsRoute,
+    LayoutGroupsRoute,
+    LayoutPaymentsRoute,
     LayoutSettingsRoute,
     LayoutIndexRoute,
+    LayoutLessonsLessonIdRoute,
+    LayoutStudentsStudentIdRoute,
+    LayoutLessonsIndexRoute,
+    LayoutStudentsIndexRoute,
   ]),
   LoginRoute,
   RecoverPasswordRoute,

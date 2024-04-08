@@ -16,19 +16,19 @@ const Appearance: React.FC = () => {
     <>
       <Container maxW="full">
         <Heading size="sm" py={4}>
-          Appearance
+          Apariencia
         </Heading>
         <RadioGroup onChange={toggleColorMode} value={colorMode}>
           <Stack>
             {/* TODO: Add system default option */}
             <Radio value="light" colorScheme="teal">
-              Light mode
+              Modo claro
               <Badge ml="1" colorScheme="teal">
                 Default
               </Badge>
             </Radio>
             <Radio value="dark" colorScheme="teal">
-              Dark mode
+              Modo oscuro
             </Radio>
           </Stack>
         </RadioGroup>

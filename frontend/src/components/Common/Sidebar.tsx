@@ -10,21 +10,25 @@ import {
   IconButton,
   Image,
   Text,
+  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
 import { FiLogOut, FiMenu } from 'react-icons/fi'
 import { useQueryClient } from 'react-query'
 
-import Logo from '../../assets/images/fastapi-logo.svg'
+import LightLogo from '../../assets/images/light-logo.svg'
+import DarkLogo from '../../assets/images/dark-logo.svg'
 import { UserOut } from '../../client'
 import useAuth from '../../hooks/useAuth'
 import SidebarItems from './SidebarItems'
+
 
 const Sidebar: React.FC = () => {
   const queryClient = useQueryClient()
   const bgColor = useColorModeValue('ui.white', 'ui.dark')
   const textColor = useColorModeValue('ui.dark', 'ui.white')
+  const Logo = useColorModeValue(DarkLogo, LightLogo)
   const secBgColor = useColorModeValue('ui.secondary', 'ui.darkSlate')
   const currentUser = queryClient.getQueryData<UserOut>('currentUser')
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -64,12 +68,12 @@ const Sidebar: React.FC = () => {
                   alignItems="center"
                 >
                   <FiLogOut />
-                  <Text ml={2}>Log out</Text>
+                  <Text ml={2}>Cerrar sesión</Text>
                 </Flex>
               </Box>
               {currentUser?.email && (
                 <Text color={textColor} noOfLines={2} fontSize="sm" p={2}>
-                  Logged in as: {currentUser.email}
+                  Sesión iniciada como {currentUser?.full_name || currentUser?.email}
                 </Text>
               )}
             </Flex>
@@ -105,7 +109,7 @@ const Sidebar: React.FC = () => {
               p={2}
               maxW="180px"
             >
-              Logged in as: {currentUser.email}
+              Session iniciada como {currentUser.email}
             </Text>
           )}
         </Flex>

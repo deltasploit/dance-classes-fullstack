@@ -2,37 +2,43 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ItemCreate } from '../models/ItemCreate';
-import type { ItemOut } from '../models/ItemOut';
-import type { ItemsOut } from '../models/ItemsOut';
-import type { ItemUpdate } from '../models/ItemUpdate';
+import type { GroupCreate } from '../models/GroupCreate';
+import type { GroupOut } from '../models/GroupOut';
+import type { GroupsOut } from '../models/GroupsOut';
+import type { GroupUpdate } from '../models/GroupUpdate';
 import type { Message } from '../models/Message';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class ItemsService {
+export class GroupsService {
 
     /**
-     * Read Items
-     * Retrieve items.
-     * @returns ItemsOut Successful Response
+     * Read Groups
+     * Retrieve Groups.
+     * @returns GroupsOut Successful Response
      * @throws ApiError
      */
-    public static readItems({
-skip,
-limit = 100,
-}: {
-skip?: number,
-limit?: number,
-}): CancelablePromise<ItemsOut> {
+    public static readGroups({
+        skip,
+        limit = 100,
+        studentId,
+    }: {
+        skip?: number,
+        limit?: number,
+        /**
+         * Student ID to filter by
+         */
+        studentId?: (number | null),
+    }): CancelablePromise<GroupsOut> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/items/',
+            url: '/api/v1/groups/',
             query: {
                 'skip': skip,
                 'limit': limit,
+                'student_id': studentId,
             },
             errors: {
                 422: `Validation Error`,
@@ -41,19 +47,19 @@ limit?: number,
     }
 
     /**
-     * Create Item
-     * Create new item.
-     * @returns ItemOut Successful Response
+     * Create Group
+     * Create new Group.
+     * @returns GroupOut Successful Response
      * @throws ApiError
      */
-    public static createItem({
-requestBody,
-}: {
-requestBody: ItemCreate,
-}): CancelablePromise<ItemOut> {
+    public static createGroup({
+        requestBody,
+    }: {
+        requestBody: GroupCreate,
+    }): CancelablePromise<GroupOut> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/items/',
+            url: '/api/v1/groups/',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -63,19 +69,19 @@ requestBody: ItemCreate,
     }
 
     /**
-     * Read Item
-     * Get item by ID.
-     * @returns ItemOut Successful Response
+     * Read Group
+     * Get Group by ID.
+     * @returns GroupOut Successful Response
      * @throws ApiError
      */
-    public static readItem({
-id,
-}: {
-id: number,
-}): CancelablePromise<ItemOut> {
+    public static readGroup({
+        id,
+    }: {
+        id: number,
+    }): CancelablePromise<GroupOut> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/items/{id}',
+            url: '/api/v1/groups/{id}',
             path: {
                 'id': id,
             },
@@ -86,21 +92,21 @@ id: number,
     }
 
     /**
-     * Update Item
-     * Update an item.
-     * @returns ItemOut Successful Response
+     * Update Group
+     * Update a group.
+     * @returns GroupOut Successful Response
      * @throws ApiError
      */
-    public static updateItem({
-id,
-requestBody,
-}: {
-id: number,
-requestBody: ItemUpdate,
-}): CancelablePromise<ItemOut> {
+    public static updateGroup({
+        id,
+        requestBody,
+    }: {
+        id: number,
+        requestBody: GroupUpdate,
+    }): CancelablePromise<GroupOut> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/api/v1/items/{id}',
+            url: '/api/v1/groups/{id}',
             path: {
                 'id': id,
             },
@@ -113,19 +119,19 @@ requestBody: ItemUpdate,
     }
 
     /**
-     * Delete Item
-     * Delete an item.
+     * Delete Group
+     * Delete an Group.
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static deleteItem({
-id,
-}: {
-id: number,
-}): CancelablePromise<Message> {
+    public static deleteGroup({
+        id,
+    }: {
+        id: number,
+    }): CancelablePromise<Message> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/v1/items/{id}',
+            url: '/api/v1/groups/{id}',
             path: {
                 'id': id,
             },

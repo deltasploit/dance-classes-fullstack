@@ -3,9 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ItemOut } from './ItemOut';
+import type { PaymentOut } from './PaymentOut';
 
-export type ItemsOut = {
-    data: Array<ItemOut>;
-    count: number;
+export type PaymentsOut = {
+    data: Array<PaymentOut>;
+    count?: number;
 };
+

@@ -2,19 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $ItemCreate = {
+export const $GroupUpdate = {
     properties: {
-        title: {
-    type: 'string',
-    isRequired: true,
-},
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
         description: {
-    type: 'any-of',
-    contains: [{
-    type: 'string',
-}, {
-    type: 'null',
-}],
-},
+            type: 'string',
+            isRequired: true,
+        },
     },
 } as const;

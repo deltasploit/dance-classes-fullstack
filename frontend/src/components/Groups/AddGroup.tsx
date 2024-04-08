@@ -16,15 +16,15 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { ApiError, ItemCreate, ItemsService } from '../../client'
+import { ApiError, GroupCreate, GroupsService } from '../../client'
 import useCustomToast from '../../hooks/useCustomToast'
 
-interface AddItemProps {
+interface AddGroupProps {
   isOpen: boolean
   onClose: () => void
 }
 
-const AddItem: React.FC<AddItemProps> = ({ isOpen, onClose }) => {
+const AddGroup: React.FC<AddGroupProps> = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
   const {
@@ -32,35 +32,36 @@ const AddItem: React.FC<AddItemProps> = ({ isOpen, onClose }) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<ItemCreate>({
+  } = useForm<GroupCreate>({
     mode: 'onBlur',
     criteriaMode: 'all',
     defaultValues: {
-      title: '',
-      description: '',
+      name: '',
+      description: ''
     },
   })
 
-  const addItem = async (data: ItemCreate) => {
-    await ItemsService.createItem({ requestBody: data })
+  const addGroup = async (data: GroupCreate) => {
+    await GroupsService.createGroup({ requestBody: data })
   }
 
-  const mutation = useMutation(addItem, {
+  const mutation = useMutation(addGroup, {
     onSuccess: () => {
-      showToast('Success!', 'Item created successfully.', 'success')
+      showToast('Success!', 'Grupo creado satisfactoriamente.', 'success')
       reset()
       onClose()
     },
     onError: (err: ApiError) => {
       const errDetail = err.body.detail
-      showToast('Something went wrong.', `${errDetail}`, 'error')
+      showToast('Algo anduvo mal :(', `${errDetail}`, 'error')
     },
     onSettled: () => {
-      queryClient.invalidateQueries('items')
+      queryClient.invalidateQueries('groups')
     },
   })
 
-  const onSubmit: SubmitHandler<ItemCreate> = (data) => {
+  const onSubmit: SubmitHandler<GroupCreate> = (data) => {
+    console.log(data);
     mutation.mutate(data)
   }
 
@@ -74,29 +75,29 @@ const AddItem: React.FC<AddItemProps> = ({ isOpen, onClose }) => {
       >
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Add Item</ModalHeader>
+          <ModalHeader>Nuevo grupo</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl isRequired isInvalid={!!errors.title}>
-              <FormLabel htmlFor="title">Title</FormLabel>
+            <FormControl isRequired isInvalid={!!errors.name}>
+              <FormLabel htmlFor="name">Nombre</FormLabel>
               <Input
-                id="title"
-                {...register('title', {
-                  required: 'Title is required.',
+                id="name"
+                {...register('name', {
+                  required: 'Campo requerido.',
                 })}
-                placeholder="Title"
+                placeholder="Nombre"
                 type="text"
               />
-              {errors.title && (
-                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+              {errors.name && (
+                <FormErrorMessage>{errors.name.message}</FormErrorMessage>
               )}
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel htmlFor="description">Description</FormLabel>
+              <FormLabel htmlFor="description">Descripción</FormLabel>
               <Input
                 id="description"
                 {...register('description')}
-                placeholder="Description"
+                placeholder="Descripción"
                 type="text"
               />
             </FormControl>
@@ -104,9 +105,9 @@ const AddItem: React.FC<AddItemProps> = ({ isOpen, onClose }) => {
 
           <ModalFooter gap={3}>
             <Button variant="primary" type="submit" isLoading={isSubmitting}>
-              Save
+              Guardar
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose}>Cancelar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -114,4 +115,4 @@ const AddItem: React.FC<AddItemProps> = ({ isOpen, onClose }) => {
   )
 }
 
-export default AddItem
+export default AddGroup

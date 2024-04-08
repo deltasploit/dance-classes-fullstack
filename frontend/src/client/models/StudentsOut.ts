@@ -3,9 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ItemOut = {
-    title: string;
-    description?: (string | null);
-    id: number;
-    owner_id: number;
+import type { StudentOut } from './StudentOut';
+
+export type StudentsOut = {
+    data: Array<StudentOut>;
+    count: number;
 };
+

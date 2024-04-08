@@ -47,7 +47,7 @@ const UserMenu: React.FC = () => {
               color="ui.danger"
               fontWeight="bold"
             >
-              Log out
+              Cerrar sesión
             </MenuItem>
           </MenuList>
         </Menu>

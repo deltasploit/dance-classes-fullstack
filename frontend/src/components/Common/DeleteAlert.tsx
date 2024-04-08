@@ -11,7 +11,7 @@ import {
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { ItemsService, UsersService } from '../../client'
+import { UsersService, StudentsService, GroupsService, LessonsService } from '../../client'
 import useCustomToast from '../../hooks/useCustomToast'
 
 interface DeleteProps {
@@ -30,23 +30,52 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
     formState: { isSubmitting },
   } = useForm()
 
+  const typeNames: { [key: string]: string | undefined } = {
+    'User': 'Usuario',
+    'Student': 'Alumno',
+    'Group': 'Grupo',
+    'Lesson': 'Clase'
+  }
+
+  const queryTypes: { [key: string]: string | undefined } = {
+    'User': 'users',
+    'Student': 'students',
+    'Group': 'groups',
+    'Lesson': 'lessons'
+  }
+
+  const confirmationMessages: { [key: string]: string | undefined } = {
+    'User': 'El usuario fue eliminado con éxito',
+    'Student': 'El alumno fue eliminado con éxito',
+    'Group': 'El grupo fue eliminado con éxito',
+    'Lesson': 'La clase fue eliminada con éxito'
+  }
+
   const deleteEntity = async (id: number) => {
-    if (type === 'Item') {
-      await ItemsService.deleteItem({ id: id })
-    } else if (type === 'User') {
+    if (type === 'User') {
       await UsersService.deleteUser({ userId: id })
-    } else {
+    } else if (type === 'Student') {
+      await StudentsService.deleteStudent({ id: id })
+    } else if (type === 'Group') {
+      await GroupsService.deleteGroup({ id: id })
+    } else if (type === 'Lesson') {
+      await LessonsService.deleteLesson({ id: id })
+    }
+     else {
       throw new Error(`Unexpected type: ${type}`)
     }
   }
 
   const mutation = useMutation(deleteEntity, {
     onSuccess: () => {
-      showToast(
-        'Success',
-        `The ${type.toLowerCase()} was deleted successfully.`,
-        'success',
-      )
+      const typeName = typeNames[type];
+      if (typeName) {
+        showToast(
+          'Success',
+          `${confirmationMessages[type]?.toLowerCase()}`,
+          'success',
+        );
+      }
       onClose()
     },
     onError: () => {
@@ -57,7 +86,7 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
       )
     },
     onSettled: () => {
-      queryClient.invalidateQueries(type === 'Item' ? 'items' : 'users')
+      queryClient.invalidateQueries(queryTypes[type])
     },
   })
 
@@ -76,7 +105,7 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent as="form" onSubmit={handleSubmit(onSubmit)}>
-            <AlertDialogHeader>Delete {type}</AlertDialogHeader>
+            <AlertDialogHeader>Eliminar {typeNames[type]}</AlertDialogHeader>
 
             <AlertDialogBody>
               {type === 'User' && (
@@ -85,19 +114,19 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
                   <strong>permantly deleted. </strong>
                 </span>
               )}
-              Are you sure? You will not be able to undo this action.
+              Estas seguro?
             </AlertDialogBody>
 
             <AlertDialogFooter gap={3}>
               <Button variant="danger" type="submit" isLoading={isSubmitting}>
-                Delete
+                Eliminar
               </Button>
               <Button
                 ref={cancelRef}
                 onClick={onClose}
                 isDisabled={isSubmitting}
               >
-                Cancel
+                Cancelar
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

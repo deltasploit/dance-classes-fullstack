@@ -14,29 +14,28 @@ import {
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from 'react-query'
 
-import { ApiError, ItemsService } from '../../client'
+import { ApiError, LessonsService } from '../../client'
 import ActionsMenu from '../../components/Common/ActionsMenu'
 import Navbar from '../../components/Common/Navbar'
 import useCustomToast from '../../hooks/useCustomToast'
+import { Link } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_layout/items')({
-  component: Items,
+export const Route = createFileRoute('/_layout/lessons/')({
+  component: Lessons,
 })
 
-function Items() {
+function Lessons() {
   const showToast = useCustomToast()
   const {
-    data: items,
+    data: lessons,
     isLoading,
     isError,
     error,
-  } = useQuery('items', () => ItemsService.readItems({}))
-
+  } = useQuery('lessons', () => LessonsService.readLessons({}))
   if (isError) {
     const errDetail = (error as ApiError).body?.detail
-    showToast('Something went wrong.', `${errDetail}`, 'error')
+    showToast('Omar, algo anduvo mal.', `${errDetail}`, 'error')
   }
-
   return (
     <>
       {isLoading ? (
@@ -45,36 +44,34 @@ function Items() {
           <Spinner size="xl" color="ui.main" />
         </Flex>
       ) : (
-        items && (
+        lessons && (
           <Container maxW="full">
             <Heading
               size="lg"
               textAlign={{ base: 'center', md: 'left' }}
               pt={12}
             >
-              Items Management
+              Gestión de clases
             </Heading>
-            <Navbar type={'Item'} />
+            <Navbar type={'Lesson'} />
             <TableContainer>
               <Table size={{ base: 'sm', md: 'md' }}>
                 <Thead>
                   <Tr>
-                    <Th>ID</Th>
-                    <Th>Title</Th>
-                    <Th>Description</Th>
-                    <Th>Actions</Th>
+                    <Th>#</Th>
+                    <Th>Día</Th>
+                    <Th>Grupo</Th>
+                    <Th>Acciones</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {items.data.map((item) => (
-                    <Tr key={item.id}>
-                      <Td>{item.id}</Td>
-                      <Td>{item.title}</Td>
-                      <Td color={!item.description ? 'gray.400' : 'inherit'}>
-                        {item.description || 'N/A'}
-                      </Td>
+                  {lessons.data.map((lesson) => (
+                    <Tr key={lesson.id}>
+                      <Td>{lesson.id} </Td>
+                      <Td>{lesson.day}</Td>
+                      <Td>{lesson.group.name}</Td>
                       <Td>
-                        <ActionsMenu type={'Item'} value={item} />
+                        <ActionsMenu type={'Lesson'} value={lesson} />
                       </Td>
                     </Tr>
                   ))}
@@ -88,4 +85,4 @@ function Items() {
   )
 }
 
-export default Items
+export default Lessons

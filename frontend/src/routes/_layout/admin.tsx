@@ -56,18 +56,18 @@ function Admin() {
               textAlign={{ base: 'center', md: 'left' }}
               pt={12}
             >
-              User Management
+              Gestión de usuarios
             </Heading>
             <Navbar type={'User'} />
             <TableContainer>
               <Table fontSize="md" size={{ base: 'sm', md: 'md' }}>
                 <Thead>
                   <Tr>
-                    <Th>Full name</Th>
+                    <Th>Nombre</Th>
                     <Th>Email</Th>
-                    <Th>Role</Th>
-                    <Th>Status</Th>
-                    <Th>Actions</Th>
+                    <Th>Rol</Th>
+                    <Th>Estado</Th>
+                    <Th>Acciones</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -92,7 +92,7 @@ function Admin() {
                             bg={user.is_active ? 'ui.success' : 'ui.danger'}
                             alignSelf="center"
                           />
-                          {user.is_active ? 'Active' : 'Inactive'}
+                          {user.is_active ? 'Activo' : 'Inactivo'}
                         </Flex>
                       </Td>
                       <Td>

@@ -3,7 +3,11 @@ import { Button, Flex, Icon, useDisclosure } from '@chakra-ui/react'
 import { FaPlus } from 'react-icons/fa'
 
 import AddUser from '../Admin/AddUser'
-import AddItem from '../Items/AddItem'
+import AddStudent from '../Students/AddStudent'
+import AddGroup from '../Groups/AddGroup'
+import AddLesson from '../Lessons/AddLesson'
+import AddPayment from '../Payments/AddPayment'
+
 
 interface NavbarProps {
   type: string
@@ -11,8 +15,27 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ type }) => {
   const addUserModal = useDisclosure()
-  const addItemModal = useDisclosure()
+  const addStudentModal = useDisclosure()
+  const addGroupModal = useDisclosure()
+  const addLessonModal = useDisclosure()
+  const addPaymentModal = useDisclosure()
 
+  const addComponents = {
+    'User': addUserModal.onOpen,
+    'Student': addStudentModal.onOpen,
+    'Group': addGroupModal.onOpen,
+    'Lesson': addLessonModal.onOpen,
+    'Payment': addPaymentModal.onOpen
+  }
+
+  const addFieldText: { [key: string]: string | undefined } = {
+    'User': 'Nuevo usuario',
+    'Student': 'Nuevo alumno',
+    'Group': 'Nuevo grupo',
+    'Lesson': 'Nueva clase',
+    'Payment': 'Registrar pago'
+  }
+  
   return (
     <>
       <Flex py={8} gap={4}>
@@ -27,12 +50,15 @@ const Navbar: React.FC<NavbarProps> = ({ type }) => {
           variant="primary"
           gap={1}
           fontSize={{ base: 'sm', md: 'inherit' }}
-          onClick={type === 'User' ? addUserModal.onOpen : addItemModal.onOpen}
+          onClick={addComponents[type as keyof typeof addComponents]}
         >
-          <Icon as={FaPlus} /> Add {type}
+          <Icon as={FaPlus} />{addFieldText[type]}
         </Button>
         <AddUser isOpen={addUserModal.isOpen} onClose={addUserModal.onClose} />
-        <AddItem isOpen={addItemModal.isOpen} onClose={addItemModal.onClose} />
+        <AddStudent isOpen={addStudentModal.isOpen} onClose={addStudentModal.onClose} />
+        <AddGroup isOpen={addGroupModal.isOpen} onClose={addGroupModal.onClose} />
+        <AddLesson isOpen={addLessonModal.isOpen} onClose={addLessonModal.onClose} />
+        <AddPayment isOpen={addPaymentModal.isOpen} onClose={addPaymentModal.onClose} />
       </Flex>
     </>
   )

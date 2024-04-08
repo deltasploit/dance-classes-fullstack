@@ -16,16 +16,16 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { useMutation, useQueryClient } from 'react-query'
-import { ApiError, ItemOut, ItemUpdate, ItemsService } from '../../client'
+import { ApiError, GroupOut, GroupUpdate, GroupsService } from '../../client'
 import useCustomToast from '../../hooks/useCustomToast'
 
-interface EditItemProps {
-  item: ItemOut
+interface EditGroupProps {
+  group: GroupOut
   isOpen: boolean
   onClose: () => void
 }
 
-const EditItem: React.FC<EditItemProps> = ({ item, isOpen, onClose }) => {
+const EditGroup: React.FC<EditGroupProps> = ({ group, isOpen, onClose }) => {
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
   const {
@@ -33,31 +33,31 @@ const EditItem: React.FC<EditItemProps> = ({ item, isOpen, onClose }) => {
     handleSubmit,
     reset,
     formState: { isSubmitting, errors, isDirty },
-  } = useForm<ItemUpdate>({
+  } = useForm<GroupUpdate>({
     mode: 'onBlur',
     criteriaMode: 'all',
-    defaultValues: item,
+    defaultValues: group,
   })
 
-  const updateItem = async (data: ItemUpdate) => {
-    await ItemsService.updateItem({ id: item.id, requestBody: data })
+  const updateGroup = async (data: GroupUpdate) => {
+    await GroupsService.updateGroup({ id: group.id, requestBody: data })
   }
 
-  const mutation = useMutation(updateItem, {
+  const mutation = useMutation(updateGroup, {
     onSuccess: () => {
-      showToast('Success!', 'Item updated successfully.', 'success')
+      showToast('Success!', 'Grupo actualizado satisfactoriamente.', 'success')
       onClose()
     },
     onError: (err: ApiError) => {
       const errDetail = err.body.detail
-      showToast('Something went wrong.', `${errDetail}`, 'error')
+      showToast('Algo salio mal :(', `${errDetail}`, 'error')
     },
     onSettled: () => {
-      queryClient.invalidateQueries('items')
+      queryClient.invalidateQueries('groups')
     },
   })
 
-  const onSubmit: SubmitHandler<ItemUpdate> = async (data) => {
+  const onSubmit: SubmitHandler<GroupUpdate> = async (data) => {
     mutation.mutate(data)
   }
 
@@ -76,28 +76,28 @@ const EditItem: React.FC<EditItemProps> = ({ item, isOpen, onClose }) => {
       >
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Edit Item</ModalHeader>
+          <ModalHeader>Actualizar grupo</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl isInvalid={!!errors.title}>
-              <FormLabel htmlFor="title">Title</FormLabel>
+            <FormControl isInvalid={!!errors.name}>
+              <FormLabel htmlFor="name">Nombre</FormLabel>
               <Input
-                id="title"
-                {...register('title', {
-                  required: 'Title is required',
+                id="name"
+                {...register('name', {
+                  required: 'Campo requerido',
                 })}
                 type="text"
               />
-              {errors.title && (
-                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+              {errors.name && (
+                <FormErrorMessage>{errors.name.message}</FormErrorMessage>
               )}
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel htmlFor="description">Description</FormLabel>
+              <FormLabel htmlFor="description">Descripcion</FormLabel>
               <Input
                 id="description"
                 {...register('description')}
-                placeholder="Description"
+                placeholder="Descripcion"
                 type="text"
               />
             </FormControl>
@@ -109,9 +109,9 @@ const EditItem: React.FC<EditItemProps> = ({ item, isOpen, onClose }) => {
               isLoading={isSubmitting}
               isDisabled={!isDirty}
             >
-              Save
+              Guardar
             </Button>
-            <Button onClick={onCancel}>Cancel</Button>
+            <Button onClick={onCancel}>Cancelar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -119,4 +119,4 @@ const EditItem: React.FC<EditItemProps> = ({ item, isOpen, onClose }) => {
   )
 }
 
-export default EditItem
+export default EditGroup

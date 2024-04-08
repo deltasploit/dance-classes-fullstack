@@ -3,7 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ItemCreate = {
-    title: string;
-    description?: (string | null);
+import type { GroupOut } from './GroupOut';
+
+export type GroupsOut = {
+    data?: Array<GroupOut>;
+    count: number;
 };
+

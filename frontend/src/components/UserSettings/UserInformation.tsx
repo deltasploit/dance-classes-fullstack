@@ -50,11 +50,11 @@ const UserInformation: React.FC = () => {
 
   const mutation = useMutation(updateInfo, {
     onSuccess: () => {
-      showToast('Success!', 'User updated successfully.', 'success')
+      showToast('Success!', 'Usuario actualizado satisfactoriamente.', 'success')
     },
     onError: (err: ApiError) => {
       const errDetail = err.body.detail
-      showToast('Something went wrong.', `${errDetail}`, 'error')
+      showToast('Algo anduvo mal.', `${errDetail}`, 'error')
     },
     onSettled: () => {
       queryClient.invalidateQueries('users')
@@ -74,13 +74,13 @@ const UserInformation: React.FC = () => {
   return (
     <>
       <Container maxW="full" as="form" onSubmit={handleSubmit(onSubmit)}>
-        <Heading size="sm" py={4}>
-          User Information
+        <Heading size="md" py={4}>
+          Información de usuario
         </Heading>
         <Box w={{ sm: 'full', md: '50%' }}>
           <FormControl>
             <FormLabel color={color} htmlFor="name">
-              Full name
+              Nombre completo
             </FormLabel>
             {editMode ? (
               <Input
@@ -107,10 +107,10 @@ const UserInformation: React.FC = () => {
               <Input
                 id="email"
                 {...register('email', {
-                  required: 'Email is required',
+                  required: 'Email es requerido',
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                    message: 'Invalid email address',
+                    message: 'Inserta una dirección de email correcta',
                   },
                 })}
                 type="email"
@@ -133,11 +133,11 @@ const UserInformation: React.FC = () => {
               isLoading={editMode ? isSubmitting : false}
               isDisabled={editMode ? !isDirty || !getValues('email') : false}
             >
-              {editMode ? 'Save' : 'Edit'}
+              {editMode ? 'Guardar' : 'Editar'}
             </Button>
             {editMode && (
               <Button onClick={onCancel} isDisabled={isSubmitting}>
-                Cancel
+                Cancelar
               </Button>
             )}
           </Flex>

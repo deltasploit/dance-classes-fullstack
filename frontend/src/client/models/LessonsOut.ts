@@ -3,7 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ItemUpdate = {
-    title?: (string | null);
-    description?: (string | null);
+import type { LessonOut } from './LessonOut';
+
+export type LessonsOut = {
+    data: Array<LessonOut>;
+    count: number;
 };
+
