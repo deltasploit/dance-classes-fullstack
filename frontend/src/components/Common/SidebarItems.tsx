@@ -8,7 +8,6 @@ import { UserOut } from '../../client'
 
 const items = [
   { icon: FiHome, title: 'Inicio', path: '/' },
-  //{ icon: FiBriefcase, title: 'Items', path: '/items' },
   { icon: FiList, title: 'Mis Clases', path: '/lessons' },
   { icon: FiUser, title: 'Mis Alumnos', path: '/students' },
   { icon: FiUsers, title: 'Mis Grupos', path: '/groups' },
@@ -27,7 +26,7 @@ const SidebarItems: React.FC<SidebarItemsProps> = ({ onClose }) => {
   const currentUser = queryClient.getQueryData<UserOut>('currentUser')
 
   const finalItems = currentUser?.is_superuser
-    ? [...items, { icon: FiUsers, title: 'Admin', path: '/admin' }]
+    ? [...items, { icon: FiUsers, title: 'Administrador', path: '/admin' }]
     : items
 
   const listItems = finalItems.map((item) => (

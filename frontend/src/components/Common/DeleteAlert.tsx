@@ -11,7 +11,7 @@ import {
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { UsersService, StudentsService, GroupsService, LessonsService } from '../../client'
+import { UsersService, StudentsService, GroupsService, LessonsService, PaymentsService } from '../../client'
 import useCustomToast from '../../hooks/useCustomToast'
 
 interface DeleteProps {
@@ -34,21 +34,32 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
     'User': 'Usuario',
     'Student': 'Alumno',
     'Group': 'Grupo',
-    'Lesson': 'Clase'
+    'Lesson': 'Clase',
+    'Payment': 'Pago'
   }
 
   const queryTypes: { [key: string]: string | undefined } = {
     'User': 'users',
     'Student': 'students',
     'Group': 'groups',
-    'Lesson': 'lessons'
+    'Lesson': 'lessons',
+    'Payment': 'payments'
   }
 
   const confirmationMessages: { [key: string]: string | undefined } = {
     'User': 'El usuario fue eliminado con éxito',
     'Student': 'El alumno fue eliminado con éxito',
     'Group': 'El grupo fue eliminado con éxito',
-    'Lesson': 'La clase fue eliminada con éxito'
+    'Lesson': 'La clase fue eliminada con éxito',
+    'Payment': 'El pago fue eliminado con éxito'
+  }
+
+  const errorMessages: { [key: string]: string | undefined } = {
+    'User': 'Ocurrió un error al intentar eliminar el usuario',
+    'Student': 'Ocurrió un error al intentar eliminar el alumno',
+    'Group': 'Ocurrió un error al intentar eliminar el grupo',
+    'Lesson': 'Ocurrió un error al intentar eliminar la clase',
+    'Payment': 'Ocurrió un error al intentar eliminar el pago'
   }
 
   const deleteEntity = async (id: number) => {
@@ -60,6 +71,8 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
       await GroupsService.deleteGroup({ id: id })
     } else if (type === 'Lesson') {
       await LessonsService.deleteLesson({ id: id })
+    } else if (type === 'Payment') {
+      await PaymentsService.deletePayment({ id: id })
     }
      else {
       throw new Error(`Unexpected type: ${type}`)
@@ -71,7 +84,7 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
       const typeName = typeNames[type];
       if (typeName) {
         showToast(
-          'Success',
+          'Éxito!',
           `${confirmationMessages[type]?.toLowerCase()}`,
           'success',
         );
@@ -80,8 +93,8 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
     },
     onError: () => {
       showToast(
-        'An error occurred.',
-        `An error occurred while deleting the ${type.toLowerCase()}.`,
+        'Algo anduvo mal.',
+        `Ocurrió un error al intentar eliminar el  ${errorMessages[type]?.toLowerCase()}.`,
         'error',
       )
     },
@@ -108,10 +121,10 @@ const Delete: React.FC<DeleteProps> = ({ type, id, isOpen, onClose }) => {
             <AlertDialogHeader>Eliminar {typeNames[type]}</AlertDialogHeader>
 
             <AlertDialogBody>
-              {type === 'User' && (
+              {type === 'Student' && (
                 <span>
-                  All items associated with this user will also be{' '}
-                  <strong>permantly deleted. </strong>
+                  Toda la información relacionada al alumno será {' '}
+                  <strong>permanentemente eliminada. </strong>
                 </span>
               )}
               Estas seguro?

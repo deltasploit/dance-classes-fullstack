@@ -40,12 +40,12 @@ const ChangePassword: React.FC = () => {
 
   const mutation = useMutation(UpdatePassword, {
     onSuccess: () => {
-      showToast('Success!', 'Password updated.', 'success')
+      showToast('Éxito!', 'Contraseña actualizada.', 'success')
       reset()
     },
     onError: (err: ApiError) => {
       const errDetail = err.body.detail
-      showToast('Something went wrong.', `${errDetail}`, 'error')
+      showToast('Algo anduvo mal.', `${errDetail}`, 'error')
     },
   })
 
@@ -67,7 +67,7 @@ const ChangePassword: React.FC = () => {
             <Input
               id="current_password"
               {...register('current_password')}
-              placeholder="Password"
+              placeholder="Contraseña"
               type="password"
             />
             {errors.current_password && (
@@ -81,13 +81,13 @@ const ChangePassword: React.FC = () => {
             <Input
               id="password"
               {...register('new_password', {
-                required: 'Password is required',
+                required: 'Campo requerido',
                 minLength: {
                   value: 8,
-                  message: 'Password must be at least 8 characters',
+                  message: 'La contraseña debe tener 8 caracteres o más',
                 },
               })}
-              placeholder="Password"
+              placeholder="Contraseña"
               type="password"
             />
             {errors.new_password && (
@@ -99,12 +99,12 @@ const ChangePassword: React.FC = () => {
             <Input
               id="confirm_password"
               {...register('confirm_password', {
-                required: 'Please confirm your password',
+                required: 'Por favor confirma tu contraseña',
                 validate: (value) =>
                   value === getValues().new_password ||
-                  'The passwords do not match',
+                  'Las contraseñas no coinciden',
               })}
-              placeholder="Password"
+              placeholder="Contraseña"
               type="password"
             />
             {errors.confirm_password && (
