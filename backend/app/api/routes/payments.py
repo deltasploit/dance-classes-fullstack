@@ -87,5 +87,5 @@ def delete_payment(session: SessionDep, current_user: CurrentUser, id: int) -> M
         session.delete(payment)
         session.commit()
     except Exception as e:
-        raise HTTPException(status_code=500, detail="An error occured")
+        raise HTTPException(status_code=500, detail=f"An error occured: {e}")
     return Message(message="Payment deleted successfully")

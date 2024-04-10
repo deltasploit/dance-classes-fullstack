@@ -3,12 +3,12 @@ import copy
 from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException, Query
-from sqlmodel import func, select
+from sqlmodel import func, select, delete, col
 from sqlmodel.sql.expression import desc
 
 from app.api.deps import CurrentUser, SessionDep
 from app.models import (
-    Group, GroupStudentLink, Student, StudentOut, StudentsOut, StudentCreate, StudentUpdate, Message
+    Group, GroupStudentLink, Payment, Student, StudentOut, StudentsOut, StudentCreate, StudentUpdate, Message
     )
 
 router = APIRouter()
@@ -124,8 +124,15 @@ def delete_student(session: SessionDep, current_user: CurrentUser, id: int) -> M
     if not stud:
         raise HTTPException(status_code=404, detail="Student not found")
     try:
+        # Delete GroupLinks
+        grouplinks_statement = delete(GroupStudentLink).where(col(GroupStudentLink.student_id) == id)
+        session.exec(grouplinks_statement)
+        # Delete Payments
+        payments_statement = delete(Payment).where(col(Payment.student_id) == id)
+        session.exec(payments_statement)
+        # Inactive / Delete student
         session.delete(stud)
         session.commit()
     except Exception as e:
-        raise HTTPException(status_code=500, detail="An error occured")
+        raise HTTPException(status_code=500, detail=f"An error occured: {e}")
     return Message(message="Student deleted successfully")
