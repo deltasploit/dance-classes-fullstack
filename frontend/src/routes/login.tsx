@@ -21,7 +21,7 @@ import {
 } from '@tanstack/react-router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import Logo from '../assets/images/fastapi-logo.svg'
+import Logo from '../assets/images/dark-logo.svg'
 import { ApiError } from '../client'
 import { Body_login_login_access_token as AccessToken } from '../client/models/Body_login_login_access_token'
 import useAuth, { isLoggedIn } from '../hooks/useAuth'
@@ -77,7 +77,7 @@ function Login() {
       >
         <Image
           src={Logo}
-          alt="FastAPI logo"
+          alt="Dowl logo"
           height="auto"
           maxW="2xs"
           alignSelf="center"
@@ -89,7 +89,7 @@ function Login() {
             {...register('username', {
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                message: 'Invalid email address',
+                message: 'Email inválido',
               },
             })}
             placeholder="Email"
@@ -104,7 +104,7 @@ function Login() {
             <Input
               {...register('password')}
               type={show ? 'text' : 'password'}
-              placeholder="Password"
+              placeholder="Contraseña"
             />
             <InputRightElement
               color="gray.400"
@@ -124,7 +124,7 @@ function Login() {
         </FormControl>
         <Center>
           <Link as={RouterLink} to="/recover-password" color="blue.500">
-            Forgot password?
+            Olvidaste tu contraseña?
           </Link>
         </Center>
         <Button
@@ -134,7 +134,7 @@ function Login() {
           type="submit"
           isLoading={isSubmitting}
         >
-          Log In
+          Iniciar sesión
         </Button>
       </Container>
     </>
