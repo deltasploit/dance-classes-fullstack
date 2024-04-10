@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: dowlclientsystems.azurecr.io/dance-classes/frontend:latest
+        ports:
+        - containerPort: 80
+          name: frontend
+        env: 
+        - name: VITE_API_URL
+          value: "http://backend/"
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 500m
+            memory: 500Mi

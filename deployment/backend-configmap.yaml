@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-secret
+  labels:
+    app: backend
+data:
+  POSTGRES_DB: dance_classes_mili
+  POSTGRES_USER: ps_user
+  POSTGRES_PASSWORD: SecurePassword
+  POSTGRES_SERVER: postgres
+  POSTGRES_PORT: "5432"
+  # Environment: local, staging, production
+  ENVIRONMENT: production
+  PROJECT_NAME: "Dowl Sistemas de Gestión"
+  STACK_NAME: dowl-gestion-app
+  # Backend
+  BACKEND_CORS_ORIGINS: "http://localhost,http://localhost:5173,https://localhost,https://localhost:5173,http://192.168.100.5:5173,http://20.75.234.175"
+  SECRET_KEY: "PDIQQUSPQgVG0e1O+P+TtA=="
+  FIRST_SUPERUSER: nicolaseferreyra@gmail.com
+  FIRST_SUPERUSER_PASSWORD: "123"
+  USERS_OPEN_REGISTRATION: "False"
