@@ -98,7 +98,7 @@ def update_student(
             if not g:
                 raise HTTPException(status_code=404, detail=f"Group not found")
             # Create link if doesn't exist
-            gsl = session.exec(select(GroupStudentLink).where(GroupStudentLink.student_id == stud.id)).first()
+            gsl = session.exec(select(GroupStudentLink).where(GroupStudentLink.student_id == stud.id, GroupStudentLink.group_id == group_id)).first()
             if not gsl:
                 gsl = GroupStudentLink(group_id=group_id, student_id=id)
                 session.add(gsl)
